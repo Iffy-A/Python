@@ -1,0 +1,111 @@
+import random
+import re
+score = 0      
+questionumber = 0
+validate = 1
+
+def compute(sign):
+    if sign == ("+"):
+        return numberone + numbertwo
+    elif sign == ("-"):
+        return numberone - numbertwo
+    elif sign == ("*"):
+        return numberone * numbertwo
+
+
+def classnumber(num):
+    if classnumber == 1:
+        return 1
+  
+username = input("what is your name? ")
+while not username.isalpha():
+    print ("Sorry your name can only contain letters.")
+    username = input("what is your name? ")
+print ("Hello", username)
+
+
+pupil_teacher = input("Are you a teacher or pupil?: ")
+while not username.isalpha():
+    print ("Sorry this can only contain letters.")
+    input("Are you a Pupil [1] or Teacher [2] ?: ")
+    if pupil_teacher == ("Pupil"):
+        classnumber = input("What class are you in? ")
+
+for i in range (10):
+    questionumber = questionumber + 1 
+    numberone = random.randint(1,10) 
+    numbertwo = random.randint(1,10) 
+    sign = random.choice (["+", "-", "*"])
+    print ("This is question", questionumber) 
+    numberthree = compute(sign) 
+    print (numberone, sign, numbertwo, "=" )
+    while True:
+        answer = input("What is the answer? ")
+        try:
+            valid= int(answer)
+            break
+        except ValueError:
+            print("Error! use only numbers")
+    if valid == numberthree:
+        score = score + 1   
+        print ("Well done,", username, "you have", score, "out of 10")
+        
+    else:
+        print ("Sorry that is incorrect")
+        print ("The answer was", numberthree)
+        print (username, ",you have", score, "out of 10")
+    
+
+score= str(score)
+while True:
+    if classnumber == 1:
+        #with open("Class1.txt", "a") as file:
+        f.write("classone.txt", "w") 
+        file.write(username)
+        file.write(" has scored ")
+        file.write(score)
+        file.write(" out of 10\n")
+        file.close()
+    
+    elif classnumber == 2:
+        with open("Class2.txt", "a") as file:
+            file.write(username)
+            file.write(" has scored ")
+            file.write(score)
+            file.write(" out of 10\n")
+            file.close()
+            
+    elif classnumber == 3:
+        with open("Class3.txt", "a") as file:
+            file.write(username)
+            file.write(" has scored ")
+            file.write(score)
+            file.write(" out of 10\n")
+            file.close()
+    
+"""for i in range (10):
+    questionumber = questionumber + 1 
+    numberone = random.randint(1,10) 
+    numbertwo = random.randint(1,10) 
+    sign = random.choice (["+", "-", "*"])
+    print ("This is question", questionumber) 
+    numberthree = compute(sign) 
+    print (numberone, sign, numbertwo, "=" )
+    while True:
+        answer = input("What is the answer? ")
+        try:
+            valid= int(answer)
+            break
+        except ValueError:
+            print("Error! use only numbers")
+    if valid == numberthree:
+        score = score + 1   
+        print ("Well done,", username, "you have", score, "out of 10")
+    else:
+        print ("Sorry that is incorrect")
+        print ("The answer was", numberthree)
+        print (username, ",you have", score, "out of 10")"""
+
+
+            
+
