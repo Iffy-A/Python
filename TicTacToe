@@ -6,102 +6,133 @@ board = [
     '-', '-', '-' 
 ]
 
-def printBoard():
-    print(' | ' + board[0] + ' | ' + board[1] + ' | ' + board[2] + ' | ')
-    print(' | ' + board[3] + ' | ' + board[4] + ' | ' + board[5] + ' | ')
-    print(' | ' + board[6] + ' | ' + board[7] + ' | ' + board[8] + ' | ')
-    
-def nameCheck(name):
-    validName = False
-    while validName == False:
-        if name.isalpha():
-            print('Hello ' + name)
-            validName = True
-        else:
-            print(name +' is not a valid name.')
-            name = input('Please re-enter your name: ')
-
-def compPl(removeNum):
-    numAvail = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-    numAvail.pop(removeNum)
-    choseNum = random.choice(numAvail)
-    print(choseNum)
-    numAvail.pop(choseNum)
-    if(board[choseNum] == "-"):
-        board[choseNum] = compChar    
-        printBoard()
-
-def plInp():
-    while gameWon == False:
-        try:
-            place = int(input('Please enter a number between 0 and 8: '))
-            if place >= 0 and place <= 8 and board[place] == '-':
-                board[place] = playerChar
-                compPl(place)
-            else:
-                print('Sorry, that is not a valid place.')
-                printBoard()
-        except ValueError:
-            print('Sorry, that is not a valid character.')
-            printBoard()
-            
 playerChar = 'X'
 compChar = 'O'
 gameWon = False
 gameLost = False
 gameStale = False
 
+def printBoard():
+    print(' | ' + board[0] + ' | ' + board[1] + ' | ' + board[2] + ' | ')
+    print(' | ' + board[3] + ' | ' + board[4] + ' | ' + board[5] + ' | ')
+    print(' | ' + board[6] + ' | ' + board[7] + ' | ' + board[8] + ' | ')
+
+def checkWinHorz():
+    if(board[0] and board[1] and board[2] == playerChar):
+        gameWon = True
+        return gameWon
+    if(board[3] and board[4] and board[5] == playerChar):
+        gameWon = True
+        return gameWon
+    if(board[6] and board[7] and board[8] == playerChar):
+        gameWon = True
+        return gameWon, gameState()
+    if(board[0] and board[1] and board[2] == compChar):
+        gameLost = True
+        return gameLost, gameState()
+    if(board[3] and board[4] and board[5] == compChar):
+        gameLost = True
+        return gameLost, gameState()
+    if(board[6] and board[7] and board[8] == compChar):
+        gameLost = True
+        return gameLost, gameState()
+   
+def checkWinVert():
+    if(board[0] and board[3] and board[6] == playerChar):
+        gameWon = True
+        return gameWon, gameState()
+    if(board[1] and board[4] and board[7] == playerChar):
+        gameWon = True
+        return gameWon, gameState()
+    if(board[2] and board[5] and board[8] == playerChar):
+        gameWon = True
+        return gameWon, gameState()
+    if(board[0] and board[3] and board[6] == compChar):
+        gameLost = True
+        return gameLost, gameState()
+    if(board[1] and board[4] and board[7] == compChar):
+        gameLost = True
+        return gameLost, gameState()
+    if(board[2] and board[5] and board[8] == compChar):
+        gameLost = True
+        return gameLost, gameState()
+    
+def checkWinDiag():
+    if(board[0] and board[4] and board[8] == playerChar):
+        gameWon = True
+        return gameWon, gameState()
+    if(board[2] and board[4] and board[6] == playerChar):
+        gameWon = True
+        return gameWon, gameState()
+    if(board[0] and board[4] and board[8] == playerChar):
+        gameLost = True
+        return gameLost, gameState()
+    if(board[2] and board[4] and board[6] == playerChar):
+        gameLost = True
+        return gameLost, gameState()
+        
+def staleMate():
+    if(board[0] and board[4] and board[6] == playerChar):
+        gameStale = True
+        return gameStale, gameState()
+
+
+def checkWin():
+    checkWinDiag()
+    checkWinHorz()
+    checkWinVert()
+    staleMate()
+    gameState()
+    
+def gameState():
+    checkWin()
+    if gameWon:
+        print("YOU HAVE WON!")
+    if gameLost:
+        print("YOU HAVE LOST!")
+    if gameStale:
+        print("THERE ARE NO AVAILABLE MOVES REMAINING")
+        
+def nameCheck(name):
+    validName = False
+    while validName == False:
+        if name.isalpha():
+            print(f'Hello {name}')
+            validName = True
+        else:
+            print(f'{name} is not a valid name.')
+            name = input('Please re-enter your name: ')
+
+def compPl(removeNum):
+    numAvail = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    numAvail.pop(removeNum)
+    choseNum = random.choice(numAvail)
+    #print(choseNum)
+    numAvail.pop(choseNum)
+    if(board[choseNum] == "-"):
+        board[choseNum] = compChar    
+        printBoard()
+	
+def plInp():
+    while gameWon == False:
+        try:
+            place = int(input('Please enter a number between 0 and 8: '))
+            if place >= 0 and place <= 8 and board[place] == '-':
+                board[place] = playerChar
+                print("COM MOVE")
+                compPl(place)
+                gameState()
+            else:
+                print('Sorry, that is not a valid place.')
+                printBoard()
+                gameState()
+        except ValueError:
+            print('Sorry, that is not a valid character.')
+            printBoard()
+            
+
 userName = input('What is your name?: ')
 nameCheck(userName)
 
 printBoard()
 plInp()
-
-if gameWon:
-    print("YOU HAVE WON!")
-    restart = input("Would you like to try again?: \n Y - Yes | N - NO")
-    if restart == "Y" or "y":
-        board
-
-def checkWinHorz():
-    if(board[0] and board[1] and board[2] == playerChar):
-        gameWon = True
-    if(board[3] and board[4] and board[5] == playerChar):
-        gameWon = True
-    if(board[6] and board[7] and board[8] == playerChar):
-        gameWon = True
-    if(board[0] and board[1] and board[2] == compChar):
-        gameLost = True
-    if(board[3] and board[4] and board[5] == compChar):
-        gameLost = True
-    if(board[6] and board[7] and board[8] == compChar):
-        gameLost = True
-    
-def checkWinVert():
-    if(board[0] and board[3] and board[6] == playerChar):
-        gameWon = True
-    if(board[1] and board[4] and board[7] == playerChar):
-        gameWon = True
-    if(board[2] and board[5] and board[8] == playerChar):
-        gameWon = True
-    if(board[0] and board[3] and board[6] == compChar):
-        gameLost = True
-    if(board[1] and board[4] and board[7] == compChar):
-        gameLost = True
-    if(board[2] and board[5] and board[8] == compChar):
-        gameLost = True
-    
-def checkWinDiag():
-    if(board[0] and board[4] and board[8] == playerChar):
-        gameWon = True
-    if(board[2] and board[4] and board[6] == playerChar):
-        gameWon = True
-    if(board[0] and board[4] and board[8] == playerChar):
-        gameLost = True
-    if(board[2] and board[4] and board[6] == playerChar):
-        gameLost = True
-        
-def staleMate():
-    if(board[0] and board[4] and board[8] == playerChar):
-        gameStale = True
-    
